@@ -1,8 +1,5 @@
-////////////////////////////////
-// Mise en place page Accueil
-////////////////////////////////
 
-const sofaData = () => {
+const getDataSofas = () => {
     return fetch ("http://localhost:3000/api/products")
     .then(
         product => {
@@ -10,23 +7,24 @@ const sofaData = () => {
         }
     )
 }
-const automat = () => {
-    i=0;
-    sofaData()
+
+////////////////////////////////
+// Mise en place page Accueil
+////////////////////////////////
+
+const insertElementHome = () => {
+    getDataSofas()
     .then(
-        result =>{
-            for (results in result[i]){
-            innerHTML = "<a href=''><article><img src='" 
-            + result.imageUrl +"' alt='" + result.altTxt + "'><h3 class='productName'>" 
-            + result.name +"</h3><p class='productDescription'>" + result.description 
-            +"</p></article>"
-            i++;
+        results =>{
+                for (let result of results){
+                    document.getElementById('items').innerHTML += "<a href='../html/product.html?id=" 
+                    + result._id + "'><article><img src='" 
+                    + result.imageUrl +"' alt='" + result.altTxt + "'><h3 class='productName'>" 
+                    + result.name +"</h3><p class='productDescription'>" + result.description 
+                    +"</p></article></a>";
             }
         }
     )
 }
+insertElementHome();
 
-
-let insertData = document.getElementById('ask-hello')
-
-insertData+=automat(sofaData());
