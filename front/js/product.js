@@ -13,7 +13,7 @@ const getDataSofa = (id) => {
 ////////////////////////////////
  
 
- //ok je sais pas ce que je fais
+ //ok je sais pas ce que je fais mais ça marche
  //  https://javascript.info/url
  // ! ! ! ! ! https://developer.mozilla.org/fr/docs/Web/API/URLSearchParams
 const getUrl = () => {
