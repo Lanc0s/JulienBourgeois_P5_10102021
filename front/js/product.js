@@ -15,7 +15,8 @@ const getDataSofa = (id) => {
 
  //ok je sais pas ce que je fais
  //  https://javascript.info/url
-const toto = () => {
+ // ! ! ! ! ! https://developer.mozilla.org/fr/docs/Web/API/URLSearchParams
+const getUrl = () => {
     let baseUrl = (window.location).href;
     
     let url = new URL(baseUrl);
@@ -34,8 +35,13 @@ const toto = () => {
             document.getElementById('description').innerHTML = result.description;
             document.getElementsByClassName('item__img')[0].innerHTML = "<img src='" 
                 + result.imageUrl + "' alt=" + result.altTxt + ">";
+            for (let i=0; i < result.colors.length; i++){    
+            document.getElementById('colors').innerHTML += "<option value='" 
+            + result.colors[i] + "'>" + result.colors[i] + "</option>";
+            }
+        
         }
     )
 };
 
-toto();
+getUrl();
