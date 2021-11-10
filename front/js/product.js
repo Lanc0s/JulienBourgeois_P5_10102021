@@ -8,7 +8,7 @@ const getDataSofa = (id) => {
 // Mise en place page Product
 ////////////////////////////////
 const addQuantity = document.getElementById("quantity");
-
+let falseEntry = document.createElement("div");
 //ok je sais pas ce que je fais mais ça marche
 //  https://javascript.info/url
 // ! ! ! ! ! https://developer.mozilla.org/fr/docs/Web/API/URLSearchParams
@@ -41,16 +41,19 @@ const getUrl = () => {
 
     //autre truc
     document.getElementById("addToCart").addEventListener("click", () => {
-      /*
-        if (document.getElementById("colors").value === "") {
+      if (document.getElementById("colors").value === "") {
         document
-          .getElementById("colors")
-          .after(
-            "Ceci n'est pas une couleur. Merci de sélectionner une des couleurs disponibles."
-          );
+          .getElementsByClassName("item__content__settings")[0]
+          .appendChild(falseEntry);
+        falseEntry.classList.add("errorMessage");
+        falseEntry.style.color = "red";
+        falseEntry.style.backgroundColor = "white";
+        falseEntry.innerHTML =
+          "<p> Ceci n'est pas une couleur. Merci de sélectionner une des couleurs proposées.</p>";
         return;
+      } else {
+        falseEntry.innerHTML = "";
       }
-      */
       const selectedProductToCart = {
         couch: product,
         couchColor: document.getElementById("colors").value,
