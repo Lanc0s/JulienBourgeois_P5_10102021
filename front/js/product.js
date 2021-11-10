@@ -41,21 +41,47 @@ const getUrl = () => {
 
     //autre truc
     document.getElementById("addToCart").addEventListener("click", () => {
-      const localCart = {
+      /*
+        if (document.getElementById("colors").value === "") {
+        document
+          .getElementById("colors")
+          .after(
+            "Ceci n'est pas une couleur. Merci de sélectionner une des couleurs disponibles."
+          );
+        return;
+      }
+      */
+      const selectedProductToCart = {
         couch: product,
         couchColor: document.getElementById("colors").value,
-        quantity: addQuantity.value,
+        quantity: parseInt(addQuantity.value),
       };
 
-      let addToCart = JSON.parse(localStorage.getItem("addToCart"));
-      if (!addToCart || !addToCart.length) {
-        addToCart = [];
+      let cartLocalStorage = JSON.parse(
+        localStorage.getItem("cartLocalStorage")
+      );
+
+      if (!cartLocalStorage || !cartLocalStorage.length) {
+        cartLocalStorage = [];
       }
 
-      addToCart.push(localCart);
+      const filteredCart = cartLocalStorage.filter(
+        (item) =>
+          item.couch._id === selectedProductToCart.couch._id &&
+          item.couchColor === selectedProductToCart.couchColor
+      );
 
-      localStorage.setItem("addToCart", JSON.stringify(addToCart));
-      console.log(localCart);
+      if (filteredCart && filteredCart.length) {
+        filteredCart[0].quantity += selectedProductToCart.quantity;
+      } else {
+        cartLocalStorage.push(selectedProductToCart);
+      }
+
+      localStorage.setItem(
+        "cartLocalStorage",
+        JSON.stringify(cartLocalStorage)
+      );
+      console.log(selectedProductToCart);
     });
   });
 };
@@ -63,15 +89,14 @@ const getUrl = () => {
 getUrl();
 
 /*
-const hasColor = addToCart.filter(
-    (product) => product._id === item._id && product.color === color
+const hasColor = cartLocalStorage.filter(
+    (item) => item._id === ???._id && item.color === coucholor
   );
 
 if (hasColor && hasColor.length) {
     hasColor[0].quantity += quantity;
   } else {
-    cart.push(item);
+    cart.push(???);
   }
 
-storage.setItem("cart", JSON.stringify(cart));
 */
