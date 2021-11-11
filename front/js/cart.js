@@ -7,3 +7,9 @@
 
  préparer un message d'erreur sur le firstName
 */
+
+const getDataSofas = () => {
+  return fetch("http://localhost:3000/api/products").then((product) => {
+    return product.json();
+  });
+};
