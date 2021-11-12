@@ -9,7 +9,7 @@ const getDataSofa = (id) => {
 ////////////////////////////////
 const addQuantity = document.getElementById("quantity");
 let falseEntry = document.createElement("div");
-//ok je sais pas ce que je fais mais ça marche
+
 //  https://javascript.info/url
 // ! ! ! ! ! https://developer.mozilla.org/fr/docs/Web/API/URLSearchParams
 const getUrl = () => {
@@ -63,6 +63,8 @@ const getUrl = () => {
         quantity: parseInt(addQuantity.value),
       };
       //ajout au local storage
+
+      //devrait pas être plus bas?
       let cartLocalStorage = JSON.parse(
         localStorage.getItem("cartLocalStorage")
       );
