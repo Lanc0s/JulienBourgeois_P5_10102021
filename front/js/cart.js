@@ -34,7 +34,7 @@ for (let i = 0; i < cartLocalStorage.length; i++) {
     cartLocalStorage[i].couchColor +
     "</p><div class='cart__item__content__settings'>" +
     "<div class='cart__item__content__settings__quantity'><p> Qté : </p>" +
-    "<input type='number' class='itemQuantity' name='itemQuantity' min='1' max='100' value=" +
+    "<input type='number' class='itemQuantity' id= 'itemQuantity' name='itemQuantity' min='1' max='100' value=" +
     cartLocalStorage[i].quantity +
     '></div><div class="cart__item__content__settings__delete">' +
     '<p id="deleteItem">Supprimer</p></div></div></div>';
@@ -45,7 +45,21 @@ for (let i = 0; i < cartLocalStorage.length; i++) {
 
 //ne fonctionne pas dans et hors de la boucle
 document.getElementById("deleteItem").addEventListener("click", () => {
-  cartLocalStorage[0].localStorage.removeItem();
+  for (let i = 0; i < cartLocalStorage.length; i++) {
+    cartLocalStorage[i].removeItem();
+  }
+});
+
+// filter if old.quantity!=new.quantity, old.quantity=new.quantity  ????
+
+let changeQuantity = document.getElementById("itemQuantity"); //not a function?
+changeQuantity.addEventListener("change", () => {
+  if (changeQuantity.value != cartLocalStorage[0].quantity) {
+    cartLocalStorage.quantity = changeQuantity.value;
+    console.log("cartLocalStorage.quantity = " + cartLocalStorage[0].quantity);
+    console.log("changeQuantity = " + changeQuantity);
+    return cartLocalStorage.quantity;
+  }
 });
 
 ///////////////////////////////
@@ -76,7 +90,7 @@ for (let i = 0; i < cartLocalStorage.length; i++) {
 let sumTotalArticles = 0;
 //let totArticles;
 for (i = 0; i < cartLocalStorage.length; i++) {
-  let numArticles = Number(cartLocalStorage[i].quantity);
+  let numArticles = parseInt(cartLocalStorage[i].quantity);
   //totArticles = sum + numArticles;
   //console.log("totArticles= " + totArticles);
   sumTotalArticles += numArticles;
