@@ -11,17 +11,9 @@
 */
 
 let cartLocalStorage = JSON.parse(localStorage.getItem("cartLocalStorage"));
-/*
-let quantityInt = parseInt(cartLocalStorage.quantity);
-const selectedProductToCart = {
-  couch: cartLocalStorage.couch,
-  couchColor: cartLocalStorage.couchColor,
-  quantity: parseInt(cartLocalStorage.quantity),
-};
-console.log(selectedProductToCart);
-*/
 console.log(cartLocalStorage);
 
+//insertHTML couchS
 for (let i = 0; i < cartLocalStorage.length; i++) {
   document.getElementById("cart__items").innerHTML +=
     '<article class="cart__item" data-id="' +
@@ -50,10 +42,37 @@ document.getElementById("deleteItem").addEventListener("click", () => {
   cartLocalStorage[0].localStorage.removeItem();
 });
 
-//calcul quantité total
-//ne fonctionne pas en int mais en str
+//calcul quantité total de couch
+
+/* tentatives de calcul
 for (let i = 0; i < cartLocalStorage.length; i++) {
-  let sum = 0;
-  document.getElementById("totalQuantity").innerHTML = sum +=
-    cartLocalStorage[i].quantity;
+  let intArticles = parseInt(cartLocalStorage[i].quantity);
+  console.log(intArticles);
+  totArticles = numArticles(sum, intArticles);
 }
+
+//console.log(numArticles(sum));
+/*
+for (let i = 0; i < cartLocalStorage.length; i++) {
+  let totArticles = numArticles(sum);
+  //console.log(totArticles);
+  document.getElementById("totalQuantity").innerHTML = totArticles;
+  
+  const calcArticles = (x, y) => {
+    x += y;
+    return x;
+  };
+}
+*/
+//let i = 0;
+let sumTotalArticles = 0;
+//let totArticles;
+for (i = 0; i < cartLocalStorage.length; i++) {
+  let numArticles = Number(cartLocalStorage[i].quantity);
+  //totArticles = sum + numArticles;
+  //console.log("totArticles= " + totArticles);
+  sumTotalArticles += numArticles;
+  console.log("sum = " + sumTotalArticles);
+  //i++;
+}
+document.getElementById("totalQuantity").innerHTML = sumTotalArticles;
