@@ -13,7 +13,10 @@
 let cartLocalStorage = JSON.parse(localStorage.getItem("cartLocalStorage"));
 console.log(cartLocalStorage);
 
+///////////////////////////////
 //insertHTML couchS
+///////////////////////////////
+
 for (let i = 0; i < cartLocalStorage.length; i++) {
   document.getElementById("cart__items").innerHTML +=
     '<article class="cart__item" data-id="' +
@@ -36,13 +39,18 @@ for (let i = 0; i < cartLocalStorage.length; i++) {
     '></div><div class="cart__item__content__settings__delete">' +
     '<p id="deleteItem">Supprimer</p></div></div></div>';
 }
+///////////////////////////////
 //supprimer un item
+///////////////////////////////
+
 //ne fonctionne pas dans et hors de la boucle
 document.getElementById("deleteItem").addEventListener("click", () => {
   cartLocalStorage[0].localStorage.removeItem();
 });
 
-//calcul quantité total de couch
+///////////////////////////////
+//calcul quantité total de couch & price
+///////////////////////////////
 
 /* tentatives de calcul
 for (let i = 0; i < cartLocalStorage.length; i++) {
@@ -72,7 +80,20 @@ for (i = 0; i < cartLocalStorage.length; i++) {
   //totArticles = sum + numArticles;
   //console.log("totArticles= " + totArticles);
   sumTotalArticles += numArticles;
-  console.log("sum = " + sumTotalArticles);
+  //console.log("sum = " + sumTotalArticles);
   //i++;
 }
 document.getElementById("totalQuantity").innerHTML = sumTotalArticles;
+
+let sumTotalPrice = 0;
+for (i = 0; i < cartLocalStorage.length; i++) {
+  sumTotalPrice +=
+    cartLocalStorage[i].couch.price * cartLocalStorage[i].quantity;
+  console.log("sum = " + sumTotalPrice);
+  //i++;
+}
+document.getElementById("totalPrice").innerHTML = sumTotalPrice;
+
+///////////////////////////////
+//
+///////////////////////////////
