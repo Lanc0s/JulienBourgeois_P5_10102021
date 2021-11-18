@@ -47,11 +47,20 @@ const getUrl = () => {
           .getElementsByClassName("item__content__settings")[0]
           .appendChild(falseEntry);
         falseEntry.classList.add("errorMessage");
-        //falseEntry.style.color = "red";
         falseEntry.style.fontWeight = "bold";
-        //falseEntry.style.backgroundColor = "white";
+        falseEntry.style.textDecoration = "underline";
         falseEntry.innerHTML =
           "<p> Ceci n'est pas une couleur. Merci de sélectionner une des couleurs proposées.</p>";
+        return;
+      } else if (document.getElementById("quantity").value == 0) {
+        document
+          .getElementsByClassName("item__content__settings")[0]
+          .appendChild(falseEntry);
+        falseEntry.classList.add("errorMessage");
+        falseEntry.style.fontWeight = "bold";
+        falseEntry.style.textDecoration = "underline";
+        falseEntry.innerHTML =
+          "<p>Attention, vous n'avez pas sélectionné de quantité.</p>";
         return;
       } else {
         falseEntry.innerHTML = "";
