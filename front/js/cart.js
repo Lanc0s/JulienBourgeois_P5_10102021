@@ -1,15 +1,3 @@
-/*
- fetch depuis le localStorage avec une possibilité de le modifier(?)
- 
- eventListener sur
-        <div class="cart__item__content__settings__delete">
-                      <p class="deleteItem">Supprimer</p>
-
- préparer un message d'erreur sur le firstName
-
-
-*/
-
 let cartLocalStorage = JSON.parse(localStorage.getItem("cartLocalStorage"));
 console.log(cartLocalStorage);
 
@@ -97,5 +85,61 @@ const deletProduct = (productId, productColor) => {
 };
 
 ///////////////////////////////
-//
+//user data
 ///////////////////////////////
+
+//formulaire de validation regex
+
+const validFirstName = (value) => {
+  if (value.match(/^([^0-9]*)$/)) {
+    //prends pas en compte les caractères spéciaux pour les espaces "jean richard de la Tour"
+    return true;
+  } else {
+    return false;
+  }
+};
+const validLastName = (value) => {
+  if (value.match(/^([^0-9]*)$/)) {
+    //prends pas en compte les caractères spéciaux pour les espaces "jean richard de la Tour"
+    return true;
+  } else {
+    return false;
+  }
+};
+const validAddress = (value) => {
+  if (value) {
+    //pas de restriction particulière car besoin de lettre, chiffre & caractère spéciaux
+    return true;
+  } else {
+    return false;
+  }
+};
+const validCity = (value) => {
+  if (value.match(/^([^0-9]*)$/)) {
+    //pas de restriction sur les caractères spéciaux (espace & -_')
+    return true;
+  } else {
+    return false;
+  }
+};
+const validEmail = (value) => {
+  if (value.match(/\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b/gi)) {
+    //alors là on y va! doit avoir du texte avant & après le @, et après le .
+    return true;
+  } else {
+    return false;
+  }
+};
+
+////////////////
+//FBI OPEN UP
+////////////////
+let getFirstNameId = document.getElementById("firstName");
+
+let getLastNameId = document.getElementById("lastName");
+
+let getAdressId = document.getElementById("address");
+
+let getCityId = document.getElementById("city");
+
+let getEmailId = document.getElementById("email");

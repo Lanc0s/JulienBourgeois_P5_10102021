@@ -21,10 +21,11 @@ const getUrl = () => {
   let search_params = url.searchParams;
 
   let sofaId = search_params.get("id");
-
+  ////////////////////////////////////////
   //fonction gérant la page
+  ////////////////////////////////////////
+
   getDataSofa(sofaId).then((product) => {
-    //deuxieme fonction
     document.getElementById("title").innerHTML = product.name;
     document.getElementById("price").innerHTML = product.price;
     document.getElementById("description").innerHTML = product.description;
@@ -38,10 +39,13 @@ const getUrl = () => {
         product.colors[i] +
         "</option>";
     }
-
+    ////////////////////////////////////////
     //Ajout au localStorage du/des produits
+    ////////////////////////////////////////
     document.getElementById("addToCart").addEventListener("click", () => {
-      //Sécurité choix de couleur
+      ////////////////////////////////////////
+      //Sécurité choix de couleur & de quantité
+      ////////////////////////////////////////
       if (document.getElementById("colors").value === "") {
         document
           .getElementsByClassName("item__content__settings")[0]
@@ -52,6 +56,8 @@ const getUrl = () => {
         falseEntry.innerHTML =
           "<p> Ceci n'est pas une couleur. Merci de sélectionner une des couleurs proposées.</p>";
         return;
+        //lors de l'utilisation de alert, l'article s'ajoute au panier,
+        //donc utilisation de cette version pour l'éviter
       } else if (document.getElementById("quantity").value == 0) {
         document
           .getElementsByClassName("item__content__settings")[0]
@@ -65,15 +71,16 @@ const getUrl = () => {
       } else {
         falseEntry.innerHTML = "";
       }
+
+      ////////////////////////////////////////
       //création de l'objet pour contenir les produits
+      ////////////////////////////////////////
       const selectedProductToCart = {
         couch: product,
         couchColor: document.getElementById("colors").value,
         quantity: parseInt(addQuantity.value),
       };
       //ajout au local storage
-
-      //devrait pas être plus bas?
       let cartLocalStorage = JSON.parse(
         localStorage.getItem("cartLocalStorage")
       );
