@@ -17,96 +17,84 @@ console.log(cartLocalStorage);
 //insertHTML couchS
 ///////////////////////////////
 
+let sumTotalArticles = 0;
+let sumTotalPrice = 0;
+
 for (let i = 0; i < cartLocalStorage.length; i++) {
-  document.getElementById("cart__items").innerHTML +=
-    '<article class="cart__item" data-id="' +
-    cartLocalStorage[i].couch._id +
-    '"><div class="cart__item__img"> <img src="' +
-    cartLocalStorage[i].couch.imageUrl +
-    '" alt="' +
-    cartLocalStorage[i].couch.altTxt +
-    '"></div><div class="cart__item__content">' +
-    '<div class="cart__item__content__titlePrice"><h2>' +
-    cartLocalStorage[i].couch.name +
-    "</h2><p>" +
-    cartLocalStorage[i].couch.price +
-    " €</p></div><p>Couleur : " +
-    cartLocalStorage[i].couchColor +
-    "</p><div class='cart__item__content__settings'>" +
-    "<div class='cart__item__content__settings__quantity'><p> Qté : </p>" +
-    "<input type='number' class='itemQuantity' id= 'itemQuantity' name='itemQuantity' min='1' max='100' value=" +
-    cartLocalStorage[i].quantity +
-    '></div><div class="cart__item__content__settings__delete">' +
-    '<p id="deleteItem">Supprimer</p></div></div></div>';
+  const cart = cartLocalStorage[i];
+  document.getElementById("cart__items").innerHTML += `
+  <!--innerHTML starts here-->
+  <article class="cart__item" data-id="${cart.couch._id}">
+    <div class="cart__item__img">
+      <img src="${cart.couch.imageUrl}" alt="${cart.couch.altTxt}">
+    </div>
+    <div class="cart__item__content">
+      <div class="cart__item__content__titlePrice">
+        <h2>${cart.couch.name}</h2>
+        <p>${cart.couch.price} €</p>
+        </div>
+        <p>Couleur :${cart.couchColor}</p>
+        <div class='cart__item__content__settings'>
+        <div class='cart__item__content__settings__quantity'>
+        <p> Qté : </p>
+        <input type='number' class='itemQuantity' name='itemQuantity' 
+        min='1' max='100' value=${cart.quantity} onchange="changeQuantity(event, 
+          '${cart.couch._id}','${cart.couchColor}');">
+        </div>
+        <div class="cart__item__content__settings__delete">
+        <p class="deleteItem" 
+        onClick="deletProduct('${cart.couch._id}','${cart.couchColor}');">Supprimer</p>
+        </div>
+        </div>
+        </div>
+        </article>`;
+
+  ///////////////////////////////
+  //calcul quantité total de couch & price
+  ///////////////////////////////
+
+  //remplacer les i par des element.closest
+
+  let numArticles = parseInt(cartLocalStorage[i].quantity);
+  sumTotalArticles += numArticles;
+  sumTotalPrice +=
+    cartLocalStorage[i].couch.price * cartLocalStorage[i].quantity;
 }
+//insertion du prix & de la quantité d'article dans l'html
+document.getElementById("totalQuantity").innerHTML = sumTotalArticles;
+document.getElementById("totalPrice").innerHTML = sumTotalPrice;
+
+///////////////////////////////////////////
+//modifier une quantité depuis la page cart
+///////////////////////////////////////////
+
+const changeQuantity = (event, productId, productColor) => {
+  event.preventDefault();
+  console.log("event.target.value = " + event.target.value);
+  for (cart of cartLocalStorage) {
+    if (cart.couch._id === productId && cart.couchColor === productColor) {
+      cart.quantity = event.target.value;
+    }
+  }
+  localStorage.setItem("cartLocalStorage", JSON.stringify(cartLocalStorage));
+  location.reload();
+};
+
 ///////////////////////////////
 //supprimer un item
 ///////////////////////////////
 
-//ne fonctionne pas dans et hors de la boucle
-document.getElementById("deleteItem").addEventListener("click", () => {
-  for (let i = 0; i < cartLocalStorage.length; i++) {
-    cartLocalStorage[i].removeItem();
-  }
-});
-
-// filter if old.quantity!=new.quantity, old.quantity=new.quantity  ????
-
-let changeQuantity = document.getElementById("itemQuantity"); //not a function?
-changeQuantity.addEventListener("change", () => {
-  if (changeQuantity.value != cartLocalStorage[0].quantity) {
-    cartLocalStorage.quantity = changeQuantity.value;
-    console.log("cartLocalStorage.quantity = " + cartLocalStorage[0].quantity);
-    console.log("changeQuantity = " + changeQuantity);
-    return cartLocalStorage.quantity;
-  }
-});
-
-///////////////////////////////
-//calcul quantité total de couch & price
-///////////////////////////////
-
-/* tentatives de calcul
-for (let i = 0; i < cartLocalStorage.length; i++) {
-  let intArticles = parseInt(cartLocalStorage[i].quantity);
-  console.log(intArticles);
-  totArticles = numArticles(sum, intArticles);
-}
-
-//console.log(numArticles(sum));
-/*
-for (let i = 0; i < cartLocalStorage.length; i++) {
-  let totArticles = numArticles(sum);
-  //console.log(totArticles);
-  document.getElementById("totalQuantity").innerHTML = totArticles;
-  
-  const calcArticles = (x, y) => {
-    x += y;
-    return x;
-  };
-}
-*/
-//let i = 0;
-let sumTotalArticles = 0;
-//let totArticles;
-for (i = 0; i < cartLocalStorage.length; i++) {
-  let numArticles = parseInt(cartLocalStorage[i].quantity);
-  //totArticles = sum + numArticles;
-  //console.log("totArticles= " + totArticles);
-  sumTotalArticles += numArticles;
-  //console.log("sum = " + sumTotalArticles);
-  //i++;
-}
-document.getElementById("totalQuantity").innerHTML = sumTotalArticles;
-
-let sumTotalPrice = 0;
-for (i = 0; i < cartLocalStorage.length; i++) {
-  sumTotalPrice +=
-    cartLocalStorage[i].couch.price * cartLocalStorage[i].quantity;
-  console.log("sum = " + sumTotalPrice);
-  //i++;
-}
-document.getElementById("totalPrice").innerHTML = sumTotalPrice;
+const deletProduct = (productId, productColor) => {
+  cartLocalStorage.splice(
+    cartLocalStorage.findIndex(
+      (item) => item._id === productId && item.couchColor === productColor
+    ),
+    1
+  );
+  console.log(cartLocalStorage);
+  localStorage.setItem("cartLocalStorage", JSON.stringify(cartLocalStorage));
+  location.reload(alert("votre produit a bien été supprimé"));
+};
 
 ///////////////////////////////
 //
