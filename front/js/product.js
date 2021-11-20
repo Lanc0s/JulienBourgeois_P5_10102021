@@ -53,6 +53,7 @@ const getUrl = () => {
         falseEntry.classList.add("errorMessage");
         falseEntry.style.fontWeight = "bold";
         falseEntry.style.textDecoration = "underline";
+        falseEntry.style.color = "#fbbcbc";
         falseEntry.innerHTML =
           "<p> Ceci n'est pas une couleur. Merci de sélectionner une des couleurs proposées.</p>";
         return;
@@ -65,6 +66,7 @@ const getUrl = () => {
         falseEntry.classList.add("errorMessage");
         falseEntry.style.fontWeight = "bold";
         falseEntry.style.textDecoration = "underline";
+        falseEntry.style.color = "#fbbcbc";
         falseEntry.innerHTML =
           "<p>Attention, vous n'avez pas sélectionné de quantité.</p>";
         return;
