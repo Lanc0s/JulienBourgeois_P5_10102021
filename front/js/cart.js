@@ -200,44 +200,13 @@ cartForm.addEventListener("submit", (e) => {
 
 const validOnSend = (event) => {
   event.preventDefault();
-  //Constitution d'un objet contact à partir des données du formulaire
+  //Object contact from form's data
   const firstNameValue = document.getElementById("firstName").value;
   const lastNameValue = document.getElementById("lastName").value;
   const addressValue = document.getElementById("address").value;
   const cityValue = document.getElementById("city").value;
   const emailValue = document.getElementById("email").value;
 
-  const sendOrder = (contact) => {
-    const storage = window.localStorage;
-    console.log(storage);
-    //Constitution d'un aray des pdt avec les ids
-    const products = cartLocalStorage.map((newArray) => newArray._id);
-
-    const data = {
-      contact,
-      products,
-    };
-    console.log(data);
-    ///////////////////////////////
-    //requête POST sur l'API
-    //et récupération de l'id de commande dans la réponse
-    ///////////////////////////////
-    fetch("http://localhost:3000/api/products/order", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        //rediriger user sur la page de confirmation,
-        //en passant l'id de commande dans l'URL afin d'afficher le numéro de commande
-        window.location.replace(`./confirmation.html?id=${res.orderId}`);
-      })
-      .catch((error) => console.log(error));
-  };
   ///////////////////////////////
   //anything to report sir?
   ///////////////////////////////
@@ -249,7 +218,7 @@ const validOnSend = (event) => {
     validEmail(emailValue)
   ) {
     ///////////////////////////////
-    //seems like all's in order sir, you're free to go
+    //seems like all's in order sir, you're free to go, have a nice one
     ///////////////////////////////
     sendOrder({
       firstNameValue,
@@ -261,4 +230,43 @@ const validOnSend = (event) => {
   } else {
     return;
   }
+};
+
+const sendOrder = (contact) => {
+  const storage = window.localStorage;
+  console.log(storage);
+  //Constitution d'un aray des pdt avec les ids
+  const products = cartLocalStorage.map((newArray) => newArray.couch._id);
+
+  const data = {
+    contact,
+    products,
+  };
+  console.log(data);
+  ///////////////////////////////
+  //requête POST sur l'API
+  //et récupération de l'id de commande dans la réponse
+  ///////////////////////////////
+  fetch("http://localhost:3000/api/products/order", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((result) => result.json())
+    .then((result) => {
+      console.log(result.orderId);
+      //rediriger user sur la page de confirmation,
+      //en passant l'id de commande dans l'URL afin d'afficher le numéro de commande
+      //window.location.replace(`./confirmation.html?id=${result.orderId}`);
+      ///////////////////////////////////////^
+      //probleme sur l'orderId is undefined _|
+      ////////////////////////////////////////
+    })
+    ////////////////
+    //Nécessaire? -+
+    ///////////////V
+    .catch((error) => console.log(error));
 };
