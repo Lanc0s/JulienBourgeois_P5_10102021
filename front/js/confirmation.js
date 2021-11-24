@@ -9,7 +9,7 @@ const orderId = search_params.get("id");
 if (orderId) {
   document.getElementById("orderId").innerHTML = orderId;
 
-  //Effacer le numéro de commande
+  //Erase cart
   const storage = window.localStorage;
   storage.clear();
 }

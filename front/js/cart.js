@@ -57,11 +57,13 @@ document.getElementById("totalPrice").innerHTML = sumTotalPrice;
 const changeQuantity = (event, productId, productColor) => {
   //event est l'évènement prévu dans l'innerHTML, ici onchange
   //target returns the element that triggered the even, ici l'input dans lequel il se trouve
-  event.preventDefault();
-  console.log("event.target.value = " + event.target.value);
-  for (cart of cartLocalStorage) {
-    if (cart.couch._id === productId && cart.couchColor === productColor) {
-      cart.quantity = event.target.value;
+  for (let product of cartLocalStorage) {
+    if (
+      product.couch._id === productId &&
+      product.couchColor === productColor &&
+      event.target.value > 0
+    ) {
+      product.quantity = event.target.value;
     }
   }
   localStorage.setItem("cartLocalStorage", JSON.stringify(cartLocalStorage));
@@ -82,7 +84,6 @@ const deletProduct = (productId, productColor) => {
     //if we wanted to add elt, it would be here.
     //Else, we remove the element mentioned above the amount of time mentioned (1)
   );
-  console.log(cartLocalStorage);
   localStorage.setItem("cartLocalStorage", JSON.stringify(cartLocalStorage));
   location.reload(alert("votre produit a bien été supprimé"));
 };
@@ -91,16 +92,16 @@ const deletProduct = (productId, productColor) => {
 //user data
 ///////////////////////////////
 
-////////////////
-//FBI ! OPEN UP ! !
-////////////////
+///////////////////
+//Validate form
+///////////////////
 const getFirstNameId = document.getElementById("firstName");
 const getLastNameId = document.getElementById("lastName");
 const getAdress = document.getElementById("address");
 const getCity = document.getElementById("city");
 const getEmail = document.getElementById("email");
 
-//Don't mind if I check your record sir?
+//First security check
 const validForm = () => {
   getFirstNameId.addEventListener("change", (event) => {
     if (validFirstName(event.target.value)) {
@@ -201,31 +202,31 @@ cartForm.addEventListener("submit", (e) => {
 const validOnSend = (event) => {
   event.preventDefault();
   //Object contact from form's data
-  const firstNameValue = document.getElementById("firstName").value;
-  const lastNameValue = document.getElementById("lastName").value;
-  const addressValue = document.getElementById("address").value;
-  const cityValue = document.getElementById("city").value;
-  const emailValue = document.getElementById("email").value;
+  const firstName = document.getElementById("firstName").value;
+  const lastName = document.getElementById("lastName").value;
+  const address = document.getElementById("address").value;
+  const city = document.getElementById("city").value;
+  const email = document.getElementById("email").value;
 
   ///////////////////////////////
-  //anything to report sir?
+  //Second security check
   ///////////////////////////////
   if (
-    validFirstName(firstNameValue) &&
-    validLastName(lastNameValue) &&
-    validAddress(addressValue) &&
-    validCity(cityValue) &&
-    validEmail(emailValue)
+    validFirstName(firstName) &&
+    validLastName(lastName) &&
+    validAddress(address) &&
+    validCity(city) &&
+    validEmail(email)
   ) {
     ///////////////////////////////
-    //seems like all's in order sir, you're free to go, have a nice one
+    //seems like all's in order
     ///////////////////////////////
     sendOrder({
-      firstNameValue,
-      lastNameValue,
-      addressValue,
-      cityValue,
-      emailValue,
+      firstName,
+      lastName,
+      address,
+      city,
+      email,
     });
   } else {
     return;
@@ -233,16 +234,15 @@ const validOnSend = (event) => {
 };
 
 const sendOrder = (contact) => {
-  const storage = window.localStorage;
-  console.log(storage);
   //Constitution d'un aray des pdt avec les ids
-  const products = cartLocalStorage.map((newArray) => newArray.couch._id);
+  //utilisation de fonction flechée sans accolade pour retourner directement l'id
+  //(=> returnImplicite product.couch._id)
+  const products = cartLocalStorage.map((product) => product.couch._id);
 
   const data = {
     contact,
     products,
   };
-  console.log(data);
   ///////////////////////////////
   //requête POST sur l'API
   //et récupération de l'id de commande dans la réponse
@@ -257,16 +257,13 @@ const sendOrder = (contact) => {
   })
     .then((result) => result.json())
     .then((result) => {
-      console.log(result.orderId);
       //rediriger user sur la page de confirmation,
       //en passant l'id de commande dans l'URL afin d'afficher le numéro de commande
-      //window.location.replace(`./confirmation.html?id=${result.orderId}`);
+      window.location.replace(`./confirmation.html?id=${result.orderId}`);
       ///////////////////////////////////////^
       //probleme sur l'orderId is undefined _|
       ////////////////////////////////////////
     })
-    ////////////////
-    //Nécessaire? -+
-    ///////////////V
+    //si .then alors .catch
     .catch((error) => console.log(error));
 };

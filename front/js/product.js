@@ -12,7 +12,7 @@ let falseEntry = document.createElement("div");
 
 //  https://javascript.info/url
 // ! ! ! ! ! https://developer.mozilla.org/fr/docs/Web/API/URLSearchParams
-const getUrl = () => {
+const mainFunction = () => {
   //Fonction pour récup l'id dans l'url après le ?id=
   let baseUrl = window.location.href;
 
@@ -44,7 +44,7 @@ const getUrl = () => {
     ////////////////////////////////////////
     document.getElementById("addToCart").addEventListener("click", () => {
       ////////////////////////////////////////
-      //Sécurité choix de couleur & de quantité
+      //Security color & quantity
       ////////////////////////////////////////
       if (document.getElementById("colors").value === "") {
         document
@@ -100,7 +100,7 @@ const getUrl = () => {
       if (filteredCart && filteredCart.length) {
         filteredCart[0].quantity += selectedProductToCart.quantity;
       } else {
-        //push vers l'array
+        //push to array
         cartLocalStorage.push(selectedProductToCart);
       }
       //morph de l'objet en JSON
@@ -113,17 +113,4 @@ const getUrl = () => {
   });
 };
 
-getUrl();
-
-/*
-const hasColor = cartLocalStorage.filter(
-    (item) => item._id === ???._id && item.color === coucholor
-  );
-
-if (hasColor && hasColor.length) {
-    hasColor[0].quantity += quantity;
-  } else {
-    cart.push(???);
-  }
-
-*/
+mainFunction();
