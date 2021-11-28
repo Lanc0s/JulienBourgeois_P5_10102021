@@ -170,7 +170,6 @@ const validLastName = (entryUser) => {
 const validAddress = (entryUser) => {
   if (entryUser) {
     //pas de restriction particulière car besoin de lettre, chiffre & caractère spéciaux
-    //!!!!! (requet malveillantes type sql / binaire ?)
     return true;
   } else {
     return false;
@@ -260,9 +259,6 @@ const sendOrder = (contact) => {
       //rediriger user sur la page de confirmation,
       //en passant l'id de commande dans l'URL afin d'afficher le numéro de commande
       window.location.replace(`./confirmation.html?id=${result.orderId}`);
-      ///////////////////////////////////////^
-      //probleme sur l'orderId is undefined _|
-      ////////////////////////////////////////
     })
     //si .then alors .catch
     .catch((error) => console.log(error));
