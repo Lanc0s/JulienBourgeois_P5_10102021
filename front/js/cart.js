@@ -78,7 +78,7 @@ const deletProduct = (productId, productColor) => {
   cartLocalStorage.splice(
     //on ajoute ou enleve un/des elt de l'array (splice)
     cartLocalStorage.findIndex(
-      (item) => item._id === productId && item.couchColor === productColor
+      (item) => item.couch._id === productId && item.couchColor === productColor
     ),
     1
     //if we wanted to add elt, it would be here.
